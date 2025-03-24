@@ -196,7 +196,7 @@ public:
           std::lock_guard<std::mutex> its_lock(payload_mutex_);
           payload_->set_data(its_data, its_size);
 
-          std::cout << "Setting event (Length=" << std::dec << its_size << ")."
+          std::cout << "Notify event (Length=" << std::dec << its_size << ")."
                     << std::endl;
 
           /**

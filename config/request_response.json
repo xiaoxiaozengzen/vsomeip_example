@@ -14,10 +14,6 @@
           "id" : "0x1343"
       },
       {
-          "name" : "other-client-sample",
-          "id" : "0x1344"
-      },
-      {
           "name" : "response_example",
           "id" : "0x1277"
       }
@@ -29,15 +25,8 @@
           "instance" : "0x5678",
           "reliable" : { "port" : "30509", "enable-magic-cookies" : "false" },
           "unreliable" : "31000"
-      },
-      {
-          "service" : "0x1235",
-          "instance" : "0x5678",
-          "reliable" : { "port" : "30506", "enable-magic-cookies" : false },
-          "unreliable" : "31000"
       }
   ],
-  "routing" : "request_example",
   "service-discovery" :
   {
       "enable" : "true",

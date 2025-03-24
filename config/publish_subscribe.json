@@ -1,0 +1,22 @@
+{
+  "applications" :
+  [
+      {
+          "name" : "subscribe_example",
+          "id" : "0x1111"
+      },
+      {
+          "name" : "publisher_example",
+          "id" : "0x2222"
+      }
+  ],
+  "services" :
+  [
+      {
+          "service" : "0x4321",
+          "instance" : "0x1111",
+          "reliable" : { "port" : "30609", "enable-magic-cookies" : "false" },
+          "unreliable" : "32000"
+      }
+  ]
+}

@@ -63,3 +63,18 @@ target_link_libraries(
   ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
+
+add_executable(routing src/routing.cpp)
+target_include_directories(
+  routing PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${vsomeip3_INCLUDE_DIRS}
+  ${CommonAPI-SomeIP_INCLUDE_DIRS}
+)
+target_link_libraries(
+  routing PUBLIC
+  ${vsomeip3_LIBRARIES}
+  ${CommonAPI-SomeIP_LIBRARIES}
+  pthread
+)
