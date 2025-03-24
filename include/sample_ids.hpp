@@ -20,4 +20,11 @@
 #define PublishSubscribe_EVENTGROUP_ID 0x2222
 #define PublishSubscribe_EVENT_ID 0x8888
 
+#define FieldClient_SERVICE_ID 0x5678
+#define FieldClient_INSTANCE_ID 0x1234
+#define FieldClient_EVENTGROUP_ID 0x0022
+#define FieldClient_EVENT_ID 0x9999
+#define FieldClient_SET_METHOD_ID 0x0001
+#define FieldClient_GET_METHOD_ID 0x0002
+
 #endif // VSOMEIP_EXAMPLES_SAMPLE_IDS_HPP

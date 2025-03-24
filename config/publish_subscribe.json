@@ -13,6 +13,7 @@
     {
       "service": "0x4321",
       "instance": "0x1111",
+      "unicast": "10.236.130.22",
       "reliable": {
         "port": "30609",
         "enable-magic-cookies": "false"
@@ -22,6 +23,7 @@
         {
           "event": "0x8888",
           "is_field": "false",
+          "is_reliable": "true",
           "cycle": "3000"
         }
       ],

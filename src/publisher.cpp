@@ -76,7 +76,7 @@ public:
                       PublishSubscribe_EVENT_ID, its_groups,
                       vsomeip::event_type_e::ET_EVENT,
                       std::chrono::milliseconds::zero(), false, true, nullptr,
-                      vsomeip::reliability_type_e::RT_UNKNOWN);
+                      vsomeip::reliability_type_e::RT_RELIABLE);
     {
       std::lock_guard<std::mutex> its_lock(payload_mutex_);
       payload_ = vsomeip::runtime::get()->create_payload();

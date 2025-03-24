@@ -138,6 +138,33 @@ public:
     running_ = false;
     blocked_ = true;
     /**
+     * @brief Unregister the state handler
+     * @note 该函数会将之前注册的state handler取消注册
+     */
+    app_->unregister_state_handler();
+    /**
+     * @brief Unregister the message handler
+     * @note 该函数会将之前注册的message handler取消注册
+     *
+     * @param _service 服务ID，也可以设置为ANY_SERVICE
+     * @param _instance 实例ID，也可以设置为ANY_INSTANCE
+     * @param _method 方法ID，也可以设置为ANY_METHOD
+     */
+    app_->unregister_message_handler(RequestResponse_SERVICE_ID,
+                                     RequestResponse_INSTANCE_ID,
+                                     RequestResponse_METHOD_ID);
+    /**
+     * @brief Unregister the availability handler
+     * @note 该函数会将之前注册的availability handler取消注册
+     *
+     * @param _service 服务ID，也可以设置为ANY_SERVICE
+     * @param _instance 实例ID，也可以设置为ANY_INSTANCE
+     * @param _major 服务的主版本号，默认为ANY_MAJOR
+     * @param _minor 服务的次版本号，默认为ANY_MINOR
+     */
+    app_->unregister_availability_handler(RequestResponse_SERVICE_ID,
+                                          RequestResponse_INSTANCE_ID);
+    /**
      * @brief 清空所有的registered handler
      */
     app_->clear_all_handler();

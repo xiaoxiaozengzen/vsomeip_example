@@ -1,0 +1,40 @@
+{
+  "applications": [
+    {
+      "name": "field_client_example",
+      "id": "0x3333"
+    },
+    {
+      "name": "field_server_example",
+      "id": "0x4444"
+    }
+  ],
+  "services": [
+    {
+      "service": "0x5678",
+      "instance": "0x1234",
+      "unicast": "10.236.130.22",
+      "reliable": {
+        "port": "30709",
+        "enable-magic-cookies": "false"
+      },
+      "unreliable": "33000",
+      "events": [
+        {
+          "event": "0x9999",
+          "is_field": "true",
+          "is_reliable": "true",
+          "cycle": "5000"
+        }
+      ],
+      "eventgroups": [
+        {
+          "eventgroup": "0x0002",
+          "events": [
+            "0x9999"
+          ]
+        }
+      ]
+    }
+  ]
+}

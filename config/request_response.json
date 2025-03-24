@@ -23,6 +23,7 @@
     {
       "service": "0x1234",
       "instance": "0x5678",
+      "unicast": "10.236.130.22",
       "reliable": {
         "port": "30509",
         "enable-magic-cookies": "false"

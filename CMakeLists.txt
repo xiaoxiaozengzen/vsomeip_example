@@ -78,3 +78,33 @@ target_link_libraries(
   ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
+
+add_executable(field_server src/field_server.cpp)
+target_include_directories(
+  field_server PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${vsomeip3_INCLUDE_DIRS}
+  ${CommonAPI-SomeIP_INCLUDE_DIRS}
+)
+target_link_libraries(
+  field_server PUBLIC
+  ${vsomeip3_LIBRARIES}
+  ${CommonAPI-SomeIP_LIBRARIES}
+  pthread
+)
+
+add_executable(field_client src/field_client.cpp)
+target_include_directories(
+  field_client PUBLIC
+  $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
+  $<INSTALL_INTERFACE:include>
+  ${vsomeip3_INCLUDE_DIRS}
+  ${CommonAPI-SomeIP_INCLUDE_DIRS}
+)
+target_link_libraries(
+  field_client PUBLIC
+  ${vsomeip3_LIBRARIES}
+  ${CommonAPI-SomeIP_LIBRARIES}
+  pthread
+)
