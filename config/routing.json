@@ -1,10 +1,9 @@
 {
-  "applications" :
-  [
-      {
-          "name" : "routing_example",
-          "id" : "0x6666"
-      }
+  "applications": [
+    {
+      "name": "routing_example",
+      "id": "0x6666"
+    }
   ],
-  "routing" : "routing_example"
+  "routing": "routing_example"
 }

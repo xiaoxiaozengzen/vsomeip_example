@@ -19,8 +19,5 @@
 #define PublishSubscribe_INSTANCE_ID 0x1111
 #define PublishSubscribe_EVENTGROUP_ID 0x2222
 #define PublishSubscribe_EVENT_ID 0x8888
-#define PublishSubscribe_METHOD_ID 0x4444
-#define PublishSubscribe_GET_METHOD_ID 0x5555
-#define PublishSubscribe_SET_METHOD_ID 0x6666
 
 #endif // VSOMEIP_EXAMPLES_SAMPLE_IDS_HPP
