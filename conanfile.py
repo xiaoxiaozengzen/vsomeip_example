@@ -1,6 +1,6 @@
 from conan import ConanFile
 from conan.tools.cmake import CMake, CMakeToolchain, cmake_layout, CMakeDeps
-from conan.tools.env import VirtualBuildEnv
+from conan.tools.env import VirtualBuildEnv , VirtualRunEnv
 from conan.tools.files import (
     apply_conandata_patches,
     copy,
@@ -48,7 +48,7 @@ class VsomeipExampleConan(ConanFile):
         tc.generate()
         tc = CMakeDeps(self)
         tc.generate()
-        tc = VirtualBuildEnv(self)
+        tc = VirtualRunEnv(self)
         tc.generate()
         tc = VirtualBuildEnv(self)
         tc.generate(scope="build")
