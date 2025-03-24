@@ -45,7 +45,7 @@ public:
   bool init() {
     std::cout << "Request example Initing!" << std::endl;
     // 创建app后，必须首先调用init函数
-    // 如果app_name==""，则会使用环境变量VSOMEIP_ENV_APPLICATION_NAME
+    // 如果app_name==""，则会使用环境变量VSOMEIP_APPLICATION_NAME作为app_name
     // 配置文件读取方式：
     //     1. 从环墫变量VSOMEIP_CONFIGURATION读取配置文件路径
     //     2. 默认读取当前路径下的vsomeip.json配置文件
