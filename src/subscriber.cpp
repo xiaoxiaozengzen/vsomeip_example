@@ -155,6 +155,26 @@ public:
    * @param _response Message.
    */
   void on_message(const std::shared_ptr<vsomeip::message> &_response) {
+    std::stringstream ss;
+    ss << "Received a notify from "
+       << "service: " << std::hex << std::setfill('0') << std::setw(4)
+       << _response->get_service() << ", instance: " << std::hex
+       << std::setfill('0') << std::setw(4) << _response->get_instance()
+       << ", client: " << std::hex << std::setfill('0') << std::setw(4)
+       << _response->get_client() << ", method: " << std::hex
+       << std::setfill('0') << std::setw(4) << _response->get_method()
+       << ", message: " << _response->get_message()
+       << ", length: " << _response->get_length()
+       << ", request: " << _response->get_request()
+       << ", session: " << _response->get_session()
+       << ", protocol version: " << _response->get_protocol_version()
+       << ", interface version: " << _response->get_interface_version()
+       << ", message type: " << message_map.at(_response->get_message_type())
+       << ", return code: " << return_code_map.at(_response->get_return_code())
+       << ", is reliable: " << _response->is_reliable()
+       << ", is valid crc: " << _response->is_valid_crc();
+    std::cout << ss.str() << std::endl;
+
     std::stringstream its_message;
     its_message << "Received a notification for Event [" << std::hex
                 << std::setfill('0') << std::setw(4) << _response->get_service()
