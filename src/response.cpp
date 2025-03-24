@@ -16,6 +16,9 @@
 
 #include "sample_ids.hpp"
 
+/**
+ * @brief This class represents a response example.
+ */
 class response_example {
 public:
   response_example(bool _use_static_routing, std::string path = "")
@@ -24,6 +27,9 @@ public:
         blocked_(false), running_(true),
         offer_thread_(std::bind(&response_example::run, this)) {}
 
+  /**
+   *  @brief Initialize the response example.
+   */
   bool init() {
     std::lock_guard<std::mutex> its_lock(mutex_);
 
@@ -41,8 +47,14 @@ public:
     return true;
   }
 
+  /**
+   * @brief Start the response example.
+   */
   void start() { app_->start(); }
 
+  /**
+   * @brief Stop the response example.
+   */
   void stop() {
     running_ = false;
     blocked_ = true;
@@ -59,30 +71,49 @@ public:
     app_->stop();
   }
 
+  /**
+   * @brief Offer the service.
+   */
   void offer() {
-    // 服务端需要调用该函数像routing中注册服务
-    // _service: 服务ID
-    // _instance: 实例ID
-    // _major: 服务的主版本号，默认为DEFAULT_MAJOR
-    // _minor: 服务的次版本号，默认为DEFAULT_MINOR
+    /**
+     * @brief 提供一个service instance
+     * @note app必须调用该函数，从而将特定的service instance注册到vsomeip
+     * routing中，从而客户端可以找到该service instance
+     * @note
+     * 可以通过配置，从而决定是本地还是跨机器提供服务。如果是跨机器通信，则需要给当前服务示例提供port，否则其他机器无法找到该服务实例
+     *
+     * @param _service 服务ID
+     * @param _instance 实例ID
+     * @param _major 服务的主版本号，默认为DEFAULT_MAJOR
+     * @param _minor 服务的次版本号，默认为DEFAULT_MINOR
+     */
     app_->offer_service(RequestResponse_SERVICE_ID,
                         RequestResponse_INSTANCE_ID);
-    app_->offer_service(RequestResponse_SERVICE_ID,
-                        RequestResponse_INSTANCE2_ID);
   }
 
+  /**
+   * @brief Stop offering the service.
+   */
   void stop_offer() {
-    // 服务端需要调用该函数从routing中注销服务
-    // _service: 服务ID
-    // _instance: 实例ID
-    // _major: 服务的主版本号，默认为DEFAULT_MAJOR
-    // _minor: 服务的次版本号，默认为DEFAULT_MINOR
+    /**
+     * @brief 停止提供service instance
+     *
+     * @note 调用该函数撤回当前service
+     * instance的注册，从而其他客户端无法找到该service instance
+     *
+     * @param _service 服务ID
+     * @param _instance 实例ID
+     * @param _major 服务的主版本号，默认为DEFAULT_MAJOR
+     * @param _minor 服务的次版本号，默认为DEFAULT_MINOR
+     */
     app_->stop_offer_service(RequestResponse_SERVICE_ID,
                              RequestResponse_INSTANCE_ID);
-    app_->stop_offer_service(RequestResponse_SERVICE_ID,
-                             RequestResponse_INSTANCE2_ID);
   }
 
+  /**
+   * @brief Callback function for the state of the application.
+   * @param _state State of the application.
+   */
   void on_state(vsomeip::state_type_e _state) {
     std::cout << "Application " << app_->get_name() << " is "
               << (_state == vsomeip::state_type_e::ST_REGISTERED
@@ -101,6 +132,10 @@ public:
     }
   }
 
+  /**
+   * @brief Callback function for the message.
+   * @param _request Request message.
+   */
   void on_message(const std::shared_ptr<vsomeip::message> &_request) {
     std::cout << "Received a message with Client/Session [" << std::hex
               << std::setfill('0') << std::setw(4) << _request->get_client()
@@ -121,6 +156,9 @@ public:
     app_->send(its_response);
   }
 
+  /**
+   * @brief Run the response example.
+   */
   void run() {
     std::unique_lock<std::mutex> its_lock(mutex_);
     while (!blocked_)

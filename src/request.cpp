@@ -44,13 +44,19 @@ public:
    */
   bool init() {
     std::cout << "Request example Initing!" << std::endl;
-    // 创建app后，必须首先调用init函数
-    // 如果app_name==""，则会使用环境变量VSOMEIP_APPLICATION_NAME作为app_name
-    // 配置文件读取方式：
-    //     1. 从环墫变量VSOMEIP_CONFIGURATION读取配置文件路径
-    //     2. 默认读取当前路径下的vsomeip.json配置文件
-    //     3. 从默认路径/etc/vsomeip.json读取配置文件
-    // 会从配置文件中加载和app_name相关配置
+    /**
+     * @brief Initialize the application
+     *
+     * @note 创建app后，必须首先调用init函数
+     * @note
+     * 如果app_name==""，则会使用环境变量VSOMEIP_APPLICATION_NAME作为app_name
+     * @note 配置文件读取方式：
+     * @note    1. 从环境变量VSOMEIP_CONFIGURATION读取配置文件路径
+     * @note    2. 默认读取当前路径下的vsomeip.json配置文件
+     * @note    3. 从默认路径/etc/vsomeip.json读取配置文件
+     *
+     * @return true if the application is initialized successfully
+     */
     if (!app_->init()) {
       std::cerr << "Couldn't initialize application" << std::endl;
       return false;
@@ -58,16 +64,29 @@ public:
     std::cout << "Request example Inited!" << std::endl;
     std::cout << "App name: " << app_->get_name() << std::endl;
 
-    // 表示当前app是否成功注册到vsomeip路由中
-    // typedef std::function< void (state_type_e) > state_handler_t;
+    /**
+     * @brief 注册状态处理函数
+     * @note 改函数会在app regester和deregister时被调用
+     * @note 改函数一般在start函数和stop函数之间调用
+     *
+     * @param _handler 状态处理函数，typedef std::function<void(state_type_e)>
+     * state_handler_t;
+     */
     app_->register_state_handler(
         std::bind(&request_sample::on_state, this, std::placeholders::_1));
 
-    // 用于处理符合service_id, instance_id, method_id的消息
-    // 每个service_id, instance_id,
-    // method_id只能注册一个handler，如果重复注册，会覆盖之前的handler typedef
-    // std::function< void (const std::shared_ptr< message > &) >
-    // message_handler_t;
+    /**
+     * @brief 注册消息处理函数
+     * @note app必须注册消息处理函数，否则无法处理消息
+     * @note 对于特定的service_id, instance_id,
+     * method_id，只能注册一个handler，如果重复注册，会覆盖之前的handler
+     *
+     * @param _service 服务ID
+     * @param _instance 实例ID
+     * @param _method 方法ID
+     * @param _handler 消息处理函数, typedef std::function<void(const
+     * std::shared_ptr<message>&)> message_handler_t;
+     */
     app_->register_message_handler(
         vsomeip::ANY_SERVICE, RequestResponse_INSTANCE_ID, vsomeip::ANY_METHOD,
         std::bind(&request_sample::on_message, this, std::placeholders::_1));
@@ -86,11 +105,17 @@ public:
     its_payload->set_data(its_payload_data);
     request_->set_payload(its_payload);
 
-    // 该回调函数会在服务出现和小时的时候被调用
-    // typedef std::function< void (service_t, instance_t, bool) >
-    // availability_handler_t; _service: 服务ID _instance: 实例ID _handler:
-    // 回调函数 _major：服务的主版本号，默认为DEFAULT_MAJOR
-    // _minor：服务的次版本号，默认为DEFAULT_MINOR
+    /**
+     * @brief 注册服务可用性处理函数
+     * @note 该函数会在服务apper和disapper时被调用
+     *
+     * @param _service 服务ID
+     * @param _instance 实例ID
+     * @param _handler 服务可用性处理函数，typedef std::function<void(service_t,
+     * instance_t, bool)> availability_handler_t;
+     * @param _major 服务的主版本号，默认为DEFAULT_MAJOR
+     * @param _minor 服务的次版本号，默认为DEFAULT_MINOR
+     */
     app_->register_availability_handler(
         RequestResponse_SERVICE_ID, RequestResponse_INSTANCE_ID,
         std::bind(&request_sample::on_availability, this, std::placeholders::_1,
@@ -99,15 +124,34 @@ public:
   }
 
   void start() {
-    // 在init之后调用start
-    // 该函数会阻塞，直到调用stop或者ctrl+c去停止消息处理
+    /**
+     * @brief Start the application
+     * @note
+     * 该函数必须紧跟着init调用。该函数会一直阻塞，直到stop函数被调用或者ctrl+c
+     * @note 该函数会处理收到的消息，并使用对应的registered
+     * handler注册的函数处理消息
+     */
     app_->start();
   }
 
   void stop() {
     running_ = false;
     blocked_ = true;
+    /**
+     * @brief 清空所有的registered handler
+     */
     app_->clear_all_handler();
+    /**
+     * @brief 从routing总unregister当前service instance
+     *
+     * @note 当不再需要对应的service
+     * instance时，需要调用该函数。该函数会从routing中unregister当前service
+     * instance
+     * @note 该函数可以避免someip router避免发送不必要的find service消息
+     *
+     * @param _service 服务ID
+     * @param _instance 实例ID
+     */
     app_->release_service(RequestResponse_SERVICE_ID,
                           RequestResponse_INSTANCE_ID);
     condition_.notify_one();
@@ -118,7 +162,10 @@ public:
     } else {
       sender_.detach();
     }
-    // 停止消息处理
+    /**
+     * @brief Stop the application
+     * @note 该函数会停止处理消息，因此start函数会再该函数调用后返回
+     */
     app_->stop();
   }
 
@@ -130,13 +177,18 @@ public:
     if (_state == vsomeip::state_type_e::ST_REGISTERED) {
       std::cout << "Application " << app_->get_name() << " is registered."
                 << std::endl;
-      // 如果想要使用任意instance的服务，都需要调用该函数。
-      // _service: 服务ID
-      // _instance: 实例ID
-      // _major：服务的主版本号，默认为ANY_MAJOR
-      // _minor：服务的次版本号，默认为ANY_MINOR
-      // _use_exclusive_proxy:
-      // 是否使用独占代理(即ip和端口其他程序无法使用)，默认为false
+
+      /**
+       * @brief 将当前app以client的身份注册到VSOMEIP router
+       * @note app需要先调用该函数才能使用对应的service
+       * instance。该函数会告诉VSOMEIP
+       * router此请求，当服务可用时，将app注册到VSOMEIP router
+       *
+       * @param _service 服务ID
+       * @param _instance 实例ID
+       * @param _major 服务的主版本号，默认为ANY_MAJOR
+       * @param _minor 服务的次版本号，默认为ANY_MINOR
+       */
       app_->request_service(RequestResponse_SERVICE_ID,
                             RequestResponse_INSTANCE_ID);
     } else {
@@ -207,8 +259,15 @@ public:
         while (!blocked_)
           condition_.wait(its_lock);
         if (is_available_) {
-          // 序列化message，确定target并发送消息给target
-          // 对于request消息，自动获取client和session
+          /**
+           * @brief Send a message
+           *
+           * @note 将message序列化后，找到对应的target，并发送给target
+           * @note
+           * 对于消息中的request_id，其会自动使用client_id和session_id进行拼装
+           *
+           * @param _message message对象
+           */
           app_->send(request_);
           std::cout << "Client/Session [" << std::hex << std::setfill('0')
                     << std::setw(4) << request_->get_client() << "/"

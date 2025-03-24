@@ -6,23 +6,21 @@
 #ifndef VSOMEIP_EXAMPLES_SAMPLE_IDS_HPP
 #define VSOMEIP_EXAMPLES_SAMPLE_IDS_HPP
 
-#define SAMPLE_SERVICE_ID 0x1234
-#define SAMPLE_INSTANCE_ID 0x5678
-#define SAMPLE_METHOD_ID 0x0421
-
-#define SAMPLE_EVENT_ID 0x8778
-#define SAMPLE_GET_METHOD_ID 0x0001
-#define SAMPLE_SET_METHOD_ID 0x0002
-
-#define SAMPLE_EVENTGROUP_ID 0x4465
-
-#define OTHER_SAMPLE_SERVICE_ID 0x0248
-#define OTHER_SAMPLE_INSTANCE_ID 0x5422
-#define OTHER_SAMPLE_METHOD_ID 0x1421
+/**
+ * Method ID: 0-32767 for methods, 32768-65535 for events。32768=0x8000
+ */
 
 #define RequestResponse_SERVICE_ID 0x1234
 #define RequestResponse_INSTANCE_ID 0x5678
 #define RequestResponse_INSTANCE2_ID 0x8765
 #define RequestResponse_METHOD_ID 0x0421
+
+#define PublishSubscribe_SERVICE_ID 0x4321
+#define PublishSubscribe_INSTANCE_ID 0x1111
+#define PublishSubscribe_EVENTGROUP_ID 0x2222
+#define PublishSubscribe_EVENT_ID 0x8888
+#define PublishSubscribe_METHOD_ID 0x4444
+#define PublishSubscribe_GET_METHOD_ID 0x5555
+#define PublishSubscribe_SET_METHOD_ID 0x6666
 
 #endif // VSOMEIP_EXAMPLES_SAMPLE_IDS_HPP
