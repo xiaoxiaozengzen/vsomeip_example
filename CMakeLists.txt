@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.23)
 project(vsomeip_example)
 
 find_package(vsomeip3 REQUIRED)
-find_package(CommonAPI-SomeIP REQUIRED)
 
 add_executable(request src/request.cpp)
 target_include_directories(
@@ -10,12 +9,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   request PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -25,12 +22,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   response PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -40,12 +35,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   publisher PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -55,12 +48,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   subscriber PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -70,12 +61,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   routing PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -85,12 +74,10 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   field_server PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
 
@@ -100,11 +87,11 @@ target_include_directories(
   $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
   $<INSTALL_INTERFACE:include>
   ${vsomeip3_INCLUDE_DIRS}
-  ${CommonAPI-SomeIP_INCLUDE_DIRS}
 )
 target_link_libraries(
   field_client PUBLIC
   ${vsomeip3_LIBRARIES}
-  ${CommonAPI-SomeIP_LIBRARIES}
   pthread
 )
+
+# add_subdirectory(commonapi_example)
