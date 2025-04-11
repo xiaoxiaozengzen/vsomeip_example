@@ -1,7 +1,17 @@
 cmake_minimum_required(VERSION 3.23)
 project(vsomeip_example)
 
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
 find_package(vsomeip3 REQUIRED)
+message(STATUS "vsomeip3_INCLUDE_DIRS: ${vsomeip3_INCLUDE_DIRS}")
+message(STATUS "vsomeip3_LIBRARIES: ${vsomeip3_LIBRARIES}")
+message(STATUS "vsomeip3_VERSION: ${vsomeip3_VERSION}")
+message(STATUS "vsomeip3_VERSION_STRING: ${vsomeip3_VERSION_STRING}")
+message(STATUS "vsomeip3_VERSION_MAJOR: ${vsomeip3_VERSION_MAJOR}")
+message(STATUS "vsomeip3_VERSION_MINOR: ${vsomeip3_VERSION_MINOR}")
+message(STATUS "vsomeip3_VERSION_PATCH: ${vsomeip3_VERSION_PATCH}")
 
 add_executable(request src/request.cpp)
 target_include_directories(
@@ -94,4 +104,6 @@ target_link_libraries(
   pthread
 )
 
-# add_subdirectory(commonapi_example)
+if(DEFINED COMMONAPI_USING)
+  add_subdirectory(commonapi_example)
+endif()

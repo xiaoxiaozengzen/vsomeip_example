@@ -27,8 +27,9 @@ class VsomeipExampleConan(ConanFile):
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
+        "with_commonapi": [True, False],
     }
-    default_options = {"shared": False, "fPIC": True}
+    default_options = {"shared": False, "fPIC": True, "with_commonapi": False}
 
     def config_options(self):
         if self.settings.os == "Windows":
@@ -40,11 +41,14 @@ class VsomeipExampleConan(ConanFile):
             
     def requirements(self):
       self.requires("vsomeip/3.5.4@transformer/stable")
-      self.requires("commonapi_core/3.2.4@transformer/stable")
-      self.requires("commonapi_someip/3.2.4@transformer/stable")
+      if self.options.with_commonapi:
+        self.requires("commonapicore/3.2.4@transformer/stable")
+        self.requires("commonapisomeip/3.2.4@transformer/stable")
 
     def generate(self):
         tc = CMakeToolchain(self)
+        if self.options.with_commonapi:
+            tc.variables["COMMONAPI_USING"] = True
         tc.generate()
         tc = CMakeDeps(self)
         tc.generate()
