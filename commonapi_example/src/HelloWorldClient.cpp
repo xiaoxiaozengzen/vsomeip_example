@@ -17,12 +17,17 @@ int main() {
     CommonAPI::Runtime::setProperty("LogApplication", "E01C");
     CommonAPI::Runtime::setProperty("LibraryBase", "HelloWorld");
 
+    // 获取runtime实例，用于创建proxy和stub
     std::shared_ptr < CommonAPI::Runtime > runtime = CommonAPI::Runtime::get();
 
     std::string domain = "local";
     std::string instance = "commonapi.examples.HelloWorld";
     std::string connection = "client-sample";
 
+    // 创建proxy实例
+    // buildProxy的模板参数是interface名字
+    // 参数1：
+    // 参数2：instance name
     std::shared_ptr<HelloWorldProxy<>> myProxy = runtime->buildProxy<HelloWorldProxy>(domain,
             instance, connection);
 
@@ -39,6 +44,7 @@ int main() {
     info.sender_ = 1234;
 
     while (true) {
+        // callstatus表示调用成功还是失败
         myProxy->sayHello(name, callStatus, returnMessage, &info);
         if (callStatus != CommonAPI::CallStatus::SUCCESS) {
             std::cerr << "Remote call failed!\n";
